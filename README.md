@@ -99,13 +99,18 @@ embedded_engine = "embedded"
 
 Optional settings:
 
-- **Keep only recent blocks** (a few thousand is plenty to play):
+- **Keep about two weeks of history** so the block explorer and hand replay work for recent play
+  (≈226,000 blocks at the chain's ~5.35s block time). `min-retain-blocks` keeps the blocks themselves;
+  `pruning-keep-recent` keeps app state at past heights (hand replay reads state at the hand's end
+  height). History builds up while the node runs — a freshly state-synced node starts empty and reaches
+  two weeks after running that long; older history comes from the indexer. Budget roughly 1 GB for the
+  window (the transaction index keeps growing on top of that).
 
   ```toml
   pruning = "custom"
-  pruning-keep-recent = "3000"
+  pruning-keep-recent = "226000"
   pruning-interval = "10"
-  min-retain-blocks = 3000
+  min-retain-blocks = 226000
   ```
 
 - **Let the Block52 desktop app use this node** (its *Localhost* network). Leave these listeners on localhost:
